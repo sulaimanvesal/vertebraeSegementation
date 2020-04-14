@@ -33,6 +33,7 @@ _To test the model please run the following command_
 
     python -u src\trainer.py -nc 3 -e 300
     
+    **You can update the following default training parameteres:**
     parser.add_argument("-unetlr", help="to set the learning rate for the unet", type=float, default=0.0001)
     parser.add_argument("-e", "--epochs", help="the number of epochs to train", type=int, default=300)
     parser.add_argument("-gn", "--gaussianNoise", help="whether to apply gaussian noise", action="store_true",
