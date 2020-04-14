@@ -45,6 +45,9 @@ _To train the model, please run the following command, you can change the parame
     parser.add_argument("-pt", "--pretrained", help="whether to train from scratch or resume", action="store_true",
                         default=True)
 
+## Tensorboard Log File
+![Spine Image and Mask](imgs/spine_tensorboard.PNG)
+
 #### Pretrained weights can be download from here: [Trained DR-UNet Weights](https://bit.ly/2VvkP98 "Named link title")
 
 * Please place in the __weight files (.pth)__ inside the __weights/Verterbra_disk.unet_lr_0.0001_32.gaussian_noise/__ to reproduce the results and resume the training. 
