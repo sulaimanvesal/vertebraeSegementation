@@ -26,7 +26,7 @@ PyTorch code: Spine and Vertebrae Segmentation
 ![Spine Image and Mask](imgs/spine_pred.PNG)
 
 
-## How to model
+## How to train the model:
 To train the model, please run the following command, you can change the parameters within the train.py file.
 
 _To test the model please run the following command_
@@ -47,7 +47,7 @@ _To test the model please run the following command_
                         default=True)
 
 
-## How to test
+## How to test the model:
 To test the model, please run the following command, you can change the parameters within the train.py file.
 
 _To test the model please run the following command_
