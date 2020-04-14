@@ -271,7 +271,7 @@ if __name__ == '__main__':
     parser.add_argument("-nf", "--n_filter", help="number of initial filters for DR-UNET", type=int, default=32)
     parser.add_argument("-nb", "--n_block", help="number unet blocks", type=int, default=4)
     parser.add_argument("-pt", "--pretrained", help="whether to train from scratch or resume", action="store_true",
-                        default=True)
+                        default=False)
     args = parser.parse_args()
 
     config_info = "filters {}, n_block {}".format(args.n_filter, args.n_block)
