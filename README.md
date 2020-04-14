@@ -21,3 +21,6 @@ PyTorch code: Spine and Vertebrae Segmentation
 
 * What assumptions did you make about the data or model training during this process?
   * Very straight forward, this is exactly as our daily task in the lab. This task is quite simple, and I have already built-in scripts for differet tasks to handle medical data including, data augmentation, noramlisation, preprocessing and overall training structur.
+
+## Model output
+![Spine Image and Mask](imgs/spine_pred.PNG)
