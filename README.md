@@ -24,3 +24,10 @@ PyTorch code: Spine and Vertebrae Segmentation
 
 ## Model output
 ![Spine Image and Mask](imgs/spine_pred.PNG)
+
+## How to train
+To train the model, please run the following command, you can change the parameters within the train.py file.
+
+_Emphasized text_
+
+    Markup :  _Emphasized text_ or *Emphasized text*
