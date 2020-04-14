@@ -31,3 +31,11 @@ To train the model, please run the following command, you can change the paramet
 _To test the model please run the following command_
 
     python -u src\predict.py
+The output will be something similar:
+
+    Using TensorFlow backend.
+    filters 32, n_block 4
+    Verterbra_disk.unet_lr_0.0001_32.gaussian_noise
+    (5, 3, 256, 256) (5, 3, 256, 256)
+    The validation dice score: 0.913376534685773
+    time elapsed for training (hh:mm:ss.ms) 0:00:04.292751
