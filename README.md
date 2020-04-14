@@ -15,3 +15,9 @@ PyTorch code: Spine and Vertebrae Segmentation
 * A script or instructions demonstrating using the data loader to run through 1 epoch of model training with a segmentation network
 * Well-organized, easily-understandable, and documented code
 * Object oriented programming where appropriate
+
+### Additionally, please answer the following questions about your code:
+* What, if anything, did you do to verify that the segmentation masks and images were correctly aligned in the data loader?
+
+* What assumptions did you make about the data or model training during this process?
+  * Very straight forward, this is exactly as our daily task in the lab. This task is quite simple, and I have already built-in scripts for differet tasks to handle medical data including, data augmentation, noramlisation, preprocessing and overall training structur.
