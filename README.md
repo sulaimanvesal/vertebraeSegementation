@@ -29,6 +29,8 @@ PyTorch code: Spine and Vertebrae Segmentation
   * Very straight forward, this task/challenge is very similar to what we are doing on the daily bases at the lab. This task was not that difficault, and I tried to incorporate different piece of codes that I wrote for medical data analysis including, data augmentation, noramlisation, preprocessing and training prodedures.
 
 ## Model output
+In the following figure, you can see one test spine MR image that we randomly selected from the validation set to visually evaluate the quality of segmentation by the trained model.
+
 ![Spine Image and Mask](imgs/spine_pred.PNG)
 
 
