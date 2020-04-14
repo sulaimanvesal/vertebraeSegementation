@@ -47,6 +47,10 @@ _To train the model, please run the following command, you can change the parame
 
 #### Pretrained weights can be download from here: [Trained DR-UNet Weights](https://bit.ly/2VvkP98 "Named link title")
 
+    Please place in the __weight files (.pth)__ inside the __weights/Verterbra_disk.unet_lr_0.0001_32.gaussian_noise/__ to reproduce the results and resume the training. 
+
+    Otherewise you can change the _-pt_ parameter to __False__ to not train the model from scratch. 
+
 ## How to test the model:
 _To test the model please run the following command_
 
