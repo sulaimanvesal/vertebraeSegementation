@@ -19,14 +19,14 @@ PyTorch code: Spine and Vertebrae Segmentation
 ### Additionally, please answer the following questions about your code:
 
 * __What, if anything, did you do to verify that the segmentation masks and images were correctly aligned in the data loader?__
-  * You could easily check the image dimention after ploting the first set of images to verify if they are aligned or not. Normally, I always check the following with the data loader:
+  * You could easily check the image dimension after plotting the first set of images to verify if they are aligned or not. Normally, I always check the following with the data loader:
      * printing inbetween values to make sure the data is normalized well.
      * the values are in that specifice range or not.
      * the input shape is correct or not.
      * the lables changed to categorical format or not, since I use SoftMax for multi-class segmentation task.
 
 * __What assumptions did you make about the data or model training during this process?__
-  * Very straight forward, this task/challenge is very similar to what we are doing on the daily bases at the lab. This task was not that difficault, and I tried to incorporate different piece of codes that I wrote for medical data analysis including, data augmentation, noramlisation, preprocessing and training prodedures.
+  * Very straight forward, this task/challenge is very similar to what we are doing on a daily bases at the lab. This task was not that difficult, and I tried to incorporate a different piece of codes that I wrote for medical data analysis including, data augmentation, normalization, preprocessing and training procedures.
 
 ## Model output
 In the following figure, you can see one test spine MR image that we randomly selected from the validation set to visually evaluate the quality of segmentation by the trained model.
@@ -35,7 +35,7 @@ In the following figure, you can see one test spine MR image that we randomly se
 
 
 ## How to train the model:
-
+Since the data were very few, I used an iterative data loader with online augmentation to cope with limited data and overfitting problems. During one epoch the data loader generates 100 augmented images/masks for training iteratively. 
 _To train the model, please run the following command, you can change the parameters within the train.py file._
 
     python -u src\trainer.py -nc 3 -e 300
