@@ -17,15 +17,16 @@ PyTorch code: Spine and Vertebrae Segmentation
 - [x] Object oriented programming where appropriate
 
 ### Additionally, please answer the following questions about your code:
-* What, if anything, did you do to verify that the segmentation masks and images were correctly aligned in the data loader?
-  * You could easily check the image dimention after ploting the first set of images to verify if they are aligned or not. Normally, I always check the following:
-     * the data loader using printing in betweens to make sure the data is normalized well
-     * the values are in that specifice range or not
-     * the input shape is correct or not
-     * the lables changed to categorical format or not, since I use SoftMax for multi-class segmentation.
 
-* What assumptions did you make about the data or model training during this process?
-  * Very straight forward, this is exactly as our daily task in the lab. This task is quite simple, and I have already built-in scripts for differet tasks to handle medical data including, data augmentation, noramlisation, preprocessing and overall training structur.
+* __What, if anything, did you do to verify that the segmentation masks and images were correctly aligned in the data loader?__
+  * You could easily check the image dimention after ploting the first set of images to verify if they are aligned or not. Normally, I always check the following with the data loader:
+     * printing inbetween values to make sure the data is normalized well.
+     * the values are in that specifice range or not.
+     * the input shape is correct or not.
+     * the lables changed to categorical format or not, since I use SoftMax for multi-class segmentation task.
+
+* __What assumptions did you make about the data or model training during this process?__
+  * Very straight forward, this task/challenge is very similar to what we are doing on the daily bases at the lab. This task was not that difficault, and I tried to incorporate different piece of codes that I wrote for medical data analysis including, data augmentation, noramlisation, preprocessing and training prodedures.
 
 ## Model output
 ![Spine Image and Mask](imgs/spine_pred.PNG)
