@@ -45,6 +45,7 @@ _To train the model, please run the following command, you can change the parame
     parser.add_argument("-pt", "--pretrained", help="whether to train from scratch or resume", action="store_true",
                         default=True)
 
+### Pretrained weights can be download from here: [Named Link](https://bit.ly/2VvkP98 "Named link title")
 
 ## How to test the model:
 _To test the model please run the following command_
