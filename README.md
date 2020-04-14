@@ -32,7 +32,7 @@ _To train the model, please run the following command, you can change the parame
 
     python -u src\trainer.py -nc 3 -e 300
     
-    **You can update the following default training parameteres:**
+    ***You can update the following default training parameteres:***
     parser.add_argument("-unetlr", help="to set the learning rate for the unet", type=float, default=0.0001)
     parser.add_argument("-e", "--epochs", help="the number of epochs to train", type=int, default=300)
     parser.add_argument("-gn", "--gaussianNoise", help="whether to apply gaussian noise", action="store_true",
@@ -45,7 +45,7 @@ _To train the model, please run the following command, you can change the parame
     parser.add_argument("-pt", "--pretrained", help="whether to train from scratch or resume", action="store_true",
                         default=True)
 
-### Pretrained weights can be download from here: [Named Link](https://bit.ly/2VvkP98 "Named link title")
+#### Pretrained weights can be download from here: [Trained DR-UNet Weights](https://bit.ly/2VvkP98 "Named link title")
 
 ## How to test the model:
 _To test the model please run the following command_
