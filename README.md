@@ -28,6 +28,6 @@ PyTorch code: Spine and Vertebrae Segmentation
 ## How to train
 To train the model, please run the following command, you can change the parameters within the train.py file.
 
-_Emphasized text_
+_To test the model please run the following command_
 
-    Markup :  _Emphasized text_ or *Emphasized text*
+    python -u src\predict.py
