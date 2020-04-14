@@ -8,3 +8,10 @@ PyTorch code: Spine and Vertebrae Segmentation
 * Label 0: Background
 
 ![Spine Image and Mask](imgs/spine.PNG)
+
+
+## What we’re looking for:
+* A data loader capable of reading in the provided dataset in batches
+* A script or instructions demonstrating using the data loader to run through 1 epoch of model training with a segmentation network
+* Well-organized, easily-understandable, and documented code
+* Object oriented programming where appropriate
