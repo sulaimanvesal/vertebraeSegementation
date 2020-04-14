@@ -46,7 +46,7 @@ _To train the model, please run the following command, you can change the parame
                         default=True)
 
 ## Tensorboard Log File
-![Spine Image and Mask](imgs/spine_tensorboard.PNG)
+![Spine Image and Mask](imgs/spine_tensorboard.png)
 
 #### Pretrained weights can be download from here: [Trained DR-UNet Weights](https://bit.ly/2VvkP98 "Named link title")
 
