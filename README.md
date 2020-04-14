@@ -11,10 +11,10 @@ PyTorch code: Spine and Vertebrae Segmentation
 
 
 ## What we’re looking for:
-* A data loader capable of reading in the provided dataset in batches
-* A script or instructions demonstrating using the data loader to run through 1 epoch of model training with a segmentation network
-* Well-organized, easily-understandable, and documented code
-* Object oriented programming where appropriate
+- [x] A data loader capable of reading in the provided dataset in batches
+- [x] A script or instructions demonstrating using the data loader to run through 1 epoch of model training with a segmentation network
+- [x] Well-organized, easily-understandable, and documented code
+- [x] Object oriented programming where appropriate
 
 ### Additionally, please answer the following questions about your code:
 * What, if anything, did you do to verify that the segmentation masks and images were correctly aligned in the data loader?
