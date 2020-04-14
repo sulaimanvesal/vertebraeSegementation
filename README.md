@@ -25,8 +25,29 @@ PyTorch code: Spine and Vertebrae Segmentation
 ## Model output
 ![Spine Image and Mask](imgs/spine_pred.PNG)
 
-## How to train
+
+## How to model
 To train the model, please run the following command, you can change the parameters within the train.py file.
+
+_To test the model please run the following command_
+
+    python -u src\trainer.py -nc 3 -e 300
+    
+    parser.add_argument("-unetlr", help="to set the learning rate for the unet", type=float, default=0.0001)
+    parser.add_argument("-e", "--epochs", help="the number of epochs to train", type=int, default=300)
+    parser.add_argument("-gn", "--gaussianNoise", help="whether to apply gaussian noise", action="store_true",
+                        default=True)
+    parser.add_argument("--n_samples", help="number of samples to train", type=int, default=100)
+    parser.add_argument("-bs", "--batch_size", help="batch size of training", type=int, default=4)
+    parser.add_argument("-nc", "--n_class", help="number of classes to segment", type=int, default=3)
+    parser.add_argument("-nf", "--n_filter", help="number of initial filters for DR-UNET", type=int, default=32)
+    parser.add_argument("-nb", "--n_block", help="number unet blocks", type=int, default=4)
+    parser.add_argument("-pt", "--pretrained", help="whether to train from scratch or resume", action="store_true",
+                        default=True)
+
+
+## How to test
+To test the model, please run the following command, you can change the parameters within the train.py file.
 
 _To test the model please run the following command_
 
