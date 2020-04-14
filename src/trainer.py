@@ -22,8 +22,8 @@ from dataset import ImageProcessor, DataGenerator
 
 
 class Trainer:
-    def __init__(self, train_path="../input/trainA.csv",
-                 test_path="../input/validA.csv",
+    def __init__(self, train_path="./input/trainA.csv",
+                 test_path="./input/validA.csv",
                  width=256,
                  height=256,  #image size
                  batch_size=16,
@@ -38,7 +38,7 @@ class Trainer:
                  r_gamma=False,
                  n_samples=2000,
                  unet_model_name='unet_model_checkpoint.pt',
-                 summary_name='../summary/',
+                 summary_name='./summary/',
                  channel='channel_first'):
 
         assert channel == 'channel_first' or channel == 'channel_last', r"channel has to be 'channel_first' or ''channel_last"
@@ -167,7 +167,7 @@ class Trainer:
     def train_model(self, train=True, comments=''):
 
         # create directory for the weights
-        root_directory = '../weights/' + comments + '/'
+        root_directory = './weights/' + comments + '/'
         if not os.path.exists(root_directory):
             os.mkdir(root_directory)
 
@@ -271,7 +271,7 @@ if __name__ == '__main__':
     parser.add_argument("-nf", "--n_filter", help="number of initial filters for DR-UNET", type=int, default=32)
     parser.add_argument("-nb", "--n_block", help="number unet blocks", type=int, default=4)
     parser.add_argument("-pt", "--pretrained", help="whether to train from scratch or resume", action="store_true",
-                        default=False)
+                        default=True)
     args = parser.parse_args()
 
     config_info = "filters {}, n_block {}".format(args.n_filter, args.n_block)
@@ -290,7 +290,7 @@ if __name__ == '__main__':
                                     n_class=args.n_class)
 
     if args.pretrained:
-        unet_model.load_state_dict(torch.load('../weights/{}/unet_model_checkpoint.pt'.format(comments)))
+        unet_model.load_state_dict(torch.load('./weights/{}/unet_model_checkpoint.pt'.format(comments)))
 
     train_obj = Trainer(width= 256,
                         height=256,

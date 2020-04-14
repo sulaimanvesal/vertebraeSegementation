@@ -131,11 +131,11 @@ class DataGenerator:
 
     def get_image_paths(self, id):
         if self._phase == "train":
-            img_path = '../input/images/{}.png'.format(id)
-            mask_path = '../input/masks/{}.npy'.format(id)
+            img_path = './input/images/{}.png'.format(id)
+            mask_path = './input/masks/{}.npy'.format(id)
         else:
-            img_path = '../input/images/{}.png'.format(id)
-            mask_path = '../input/masks/{}.npy'.format(id)
+            img_path = './input/images/{}.png'.format(id)
+            mask_path = './input/masks/{}.npy'.format(id)
 
         return img_path, mask_path
 
@@ -207,8 +207,8 @@ class DataGenerator:
 
 
 if __name__ == "__main__":
-    ids_train = ImageProcessor.split_data("../input/trainA.csv")
-    ids_valid = ImageProcessor.split_data("../input/validA.csv")
+    ids_train = ImageProcessor.split_data("./input/trainA.csv")
+    ids_valid = ImageProcessor.split_data("./input/validA.csv")
     bs = 16
     num_samples = 1000
 

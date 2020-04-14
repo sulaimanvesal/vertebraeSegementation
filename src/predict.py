@@ -29,7 +29,7 @@ def predict_model(data_generator, unet_model):
         prediction = unet_model.forward(t.tensor(x_batch).cuda(), features_out=False)
         y_pred = soft_to_hard_pred(prediction.cpu().detach().numpy(), 1)
 
-        print(dice_coef_multilabel(y_true=y_batch, y_pred=y_pred, channel='channel_first'))
+        print("The validation dice score:", dice_coef_multilabel(y_true=y_batch, y_pred=y_pred, channel='channel_first'))
 
         y_pred = np.moveaxis(y_pred, 1, -1)
         y_pred = np.argmax(y_pred, axis=-1)
@@ -39,17 +39,20 @@ def predict_model(data_generator, unet_model):
         y_batch = np.argmax(y_batch, axis=-1)
 
         f = plt.figure()
-        f.add_subplot(1, 2, 1)
-        plt.imshow(y_batch[1], cmap='gray'),
+        f.add_subplot(1, 3, 1)
+        plt.imshow(np.moveaxis(x_batch[2], source=0, destination=2), cmap='gray'),
+        plt.title('Spine MRI Slice')
+        f.add_subplot(1, 3, 2)
+        plt.imshow(y_batch[2], cmap='jet'),
         plt.title('Prediction Mask')
-        f.add_subplot(1, 2, 2)
-        plt.imshow(y_pred[1], cmap='gray'),
+        f.add_subplot(1, 3, 3)
+        plt.imshow(y_pred[2], cmap='gray'),
         plt.title('Ground Truth Mask')
         plt.show(block=True)
 
         for im, gt in zip(y_pred, y_batch):
-            plt.imsave('../results/pred_{}.png'.format(i), im)
-            plt.imsave('../results/gt_{}.png'.format(i), gt)
+            plt.imsave('./results/pred_{}.png'.format(i), im)
+            plt.imsave('./results/gt_{}.png'.format(i), gt)
             i+=1
 
 
@@ -75,7 +78,7 @@ if __name__ == '__main__':
     if args.gaussianNoise:
         comments += ".gaussian_noise"
     print(comments)
-    ids_valid = ImageProcessor.split_data("../input/validA.csv")
+    ids_valid = ImageProcessor.split_data("./input/validA.csv")
     validA_generator = DataGenerator(df=ids_valid,
                                      channel="channel_first",
                                      apply_noise=False,
@@ -89,11 +92,11 @@ if __name__ == '__main__':
                                     n_block=args.n_block,
                                     bottleneck_depth=4,
                                     n_class=args.n_class)
-    unet_model.load_state_dict(torch.load('../weights/{}/unet_model_checkpoint.pt'.format(comments)))
+    unet_model.load_state_dict(torch.load('./weights/{}/unet_model_checkpoint.pt'.format(comments)))
 
     start = datetime.now()
     t.autograd.set_detect_anomaly(True)
     predict_model(validA_generator, unet_model)
     end = datetime.now()
-    print("time elapsed for training (hh:mm:ss.ms) {}".format(end - start))
+    print("time elapsed for testing (hh:mm:ss.ms) {}".format(end - start))
 
