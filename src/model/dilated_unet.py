@@ -15,15 +15,8 @@ class Encoder(nn.Module):
         self.filter = filters
         for i in range(n_block):
             out_ch = filters * 2 ** i
-            if i == 0:
-                in_ch = in_channels
-            else:
-                in_ch = filters * 2 ** (i - 1)
-
-            if padding == 'same':
-                pad = kernel_size[0] // 2
-            else:
-                pad = 0
+            in_ch = in_channels if i == 0 else filters * 2 ** (i - 1)
+            pad = kernel_size[0] // 2 if padding == 'same' else 0
             model = [nn.Conv2d(in_channels=in_ch, out_channels=out_ch, kernel_size=kernel_size, padding=pad),
                      nn.ReLU(inplace=True)]
             if batch_norm:
@@ -40,8 +33,7 @@ class Encoder(nn.Module):
         skip = []
         output = x
         res = None
-        i = 0
-        for name, layer in self._modules.items():
+        for i, (name, layer) in enumerate(self._modules.items()):
             if i % 2 == 0:
                 output = layer(output)
                 skip.append(output)
@@ -51,7 +43,6 @@ class Encoder(nn.Module):
                     output = layer(output)
                 output = nn.MaxPool2d(kernel_size=(2,2))(output)
                 res = output
-            i += 1
         return output, skip
 
 
@@ -81,10 +72,7 @@ class Decoder(nn.Module):
     def __init__(self, filters=64, n_block=3, kernel_size=(3, 3), batch_norm=True, padding='same'):
         super().__init__()
         self.n_block = n_block
-        if padding == 'same':
-            pad = kernel_size[0] // 2
-        else:
-            pad = 0
+        pad = kernel_size[0] // 2 if padding == 'same' else 0
         for i in reversed(range(n_block)):
             out_ch = filters * 2 ** i
             in_ch = 2 * out_ch
@@ -104,13 +92,11 @@ class Decoder(nn.Module):
             self.add_module('decoder2_%d' % (i + 1), nn.Sequential(*model))
 
     def forward(self, x, skip):
-        i = 0
         output = x
-        for _, layer in self._modules.items():
+        for i, (_, layer) in enumerate(self._modules.items()):
             output = layer(output)
             if i % 2 == 0:
                 output = cat([skip.pop(), output], 1)
-            i += 1
         return output
 
 
@@ -127,10 +113,7 @@ class Segmentation_model(nn.Module):
         output_bottleneck = self.bottleneck(output)
         output = self.decoder(output_bottleneck, skip)
         output = self.classifier(output)
-        if features_out:
-            return output, output_bottleneck
-        else:
-            return output
+        return (output, output_bottleneck) if features_out else output
 
 if __name__ == '__main__':
     model = Segmentation_model(filters=32, n_block=4)

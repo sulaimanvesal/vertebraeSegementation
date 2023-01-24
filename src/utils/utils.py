@@ -16,7 +16,7 @@ import torch.nn as nn
 
 def to_categorical(mask, num_classes, channel='channel_first'):
     assert mask.ndim == 4, "mask should have 4 dims"
-    if channel != 'channel_first' and channel != 'channel_last':
+    if channel not in ['channel_first', 'channel_last']:
         assert False, r"channel should be either 'channel_first' or 'channel_last'"
     assert num_classes > 1, "num_classes should be greater than 1"
     unique = np.unique(mask)
@@ -149,10 +149,10 @@ def resize_volume(img_volume, w=288, h=288):
     :param img_volume:
     :return:
     """
-    img_res = []
-    for im in img_volume:
-        img_res.append(cv2.resize(im, dsize=(w, h), interpolation=cv2.INTER_NEAREST))
-
+    img_res = [
+        cv2.resize(im, dsize=(w, h), interpolation=cv2.INTER_NEAREST)
+        for im in img_volume
+    ]
     return np.array(img_res)
 
 

@@ -11,7 +11,7 @@ from torch import save
 class EarlyStoppingCallback:
 
     def __init__(self, patience, mode="min"):
-        assert mode=="max" or mode=="min", "mode can only be /'min/' or /'max/'"
+        assert mode in ["max", "min"], "mode can only be /'min/' or /'max/'"
         self.patience = patience
         self.mode = mode
         self.counter = 0
@@ -38,7 +38,7 @@ class EarlyStoppingCallback:
 class ModelCheckPointCallback:
 
     def __init__(self, mode="min", model_name="../weights/model_checkpoint.pt", entire_model=False):
-        assert mode=="max" or mode=="min", "mode can only be /'min/' or /'max/'"
+        assert mode in ["max", "min"], "mode can only be /'min/' or /'max/'"
         self.mode = mode
         self.best_result = np.Inf if mode=='min' else np.NINF
         self.model_name = model_name
@@ -56,8 +56,5 @@ class ModelCheckPointCallback:
         if better:
             self.best_result = monitor
             self.epoch = epoch
-            if self.entire_model:
-                to_save = model
-            else:
-                to_save = model.state_dict()
+            to_save = model if self.entire_model else model.state_dict()
             save(to_save, self.model_name)

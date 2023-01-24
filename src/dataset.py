@@ -64,8 +64,7 @@ class ImageProcessor:
         :return:
         """
         df_train = pd.read_csv(img_path)
-        ids_train = df_train['img']
-        return ids_train
+        return df_train['img']
 
     @staticmethod
     def crop_volume(vol, crop_size=112):
@@ -93,7 +92,7 @@ class DataGenerator:
                  n_samples=-1,
                  offline_aug=False,
                  toprint=False):
-        assert phase == "train" or phase == "valid", r"phase has to be either'train' or 'valid'"
+        assert phase in ["train", "valid"], r"phase has to be either'train' or 'valid'"
         assert isinstance(apply_noise, bool), "apply_noise has to be bool"
         assert isinstance(apply_online_aug, bool), "apply_online_aug has to be bool"
         self._data = df
@@ -110,10 +109,7 @@ class DataGenerator:
         self._batch_size = batch_size
         self._index = 0
         self._totalcount = 0
-        if n_samples == -1:
-            self._n_samples = len(df)
-        else:
-            self._n_samples = n_samples
+        self._n_samples = len(df) if n_samples == -1 else n_samples
         self._offline_aug = offline_aug
         self._toprint = toprint
 
@@ -130,13 +126,8 @@ class DataGenerator:
         self._apply_aug = aug
 
     def get_image_paths(self, id):
-        if self._phase == "train":
-            img_path = './input/images/{}.png'.format(id)
-            mask_path = './input/masks/{}.npy'.format(id)
-        else:
-            img_path = './input/images/{}.png'.format(id)
-            mask_path = './input/masks/{}.npy'.format(id)
-
+        mask_path = f'./input/masks/{id}.npy'
+        img_path = f'./input/images/{id}.png'
         return img_path, mask_path
 
     def get_images_masks(self, img_path, mask_path):
@@ -166,11 +157,11 @@ class DataGenerator:
             self._totalcount = 0
             # self._shuffle_indices = np.random.permutation(self._shuffle_indices)
             raise StopIteration
-        for i in range(self._batch_size):
+        for _ in range(self._batch_size):
             indices.append(self._index)
             self._index += 1
             self._totalcount += 1
-            self._index = self._index % self._len
+            self._index %= self._len
             if self._totalcount >= self._n_samples:
                 break
         # if self._toprint:
