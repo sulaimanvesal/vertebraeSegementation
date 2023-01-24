@@ -41,7 +41,10 @@ class Trainer:
                  summary_name='./summary/',
                  channel='channel_first'):
 
-        assert channel == 'channel_first' or channel == 'channel_last', r"channel has to be 'channel_first' or ''channel_last"
+        assert channel in [
+            'channel_first',
+            'channel_last',
+        ], r"channel has to be 'channel_first' or ''channel_last"
         self.train_path, self.test_path = train_path, test_path
         self.WIDTH, self.HEIGHT = width, height
         self.BATCH_SIZE = batch_size
@@ -74,8 +77,7 @@ class Trainer:
                 loss_list.append(l.item())
                 y_pred = soft_to_hard_pred(prediction.cpu().detach().numpy(), 1)
                 dice_list.append(dice_coef_multilabel(y_true=y_batch, y_pred=y_pred, channel='channel_first'))
-        output = {}
-        output["dice"] = np.mean(np.array(dice_list))
+        output = {"dice": np.mean(np.array(dice_list))}
         output["loss"] = np.mean(np.array(loss_list))
         if hd:
             output["hd"] = np.mean(np.array(hd_list))
@@ -103,7 +105,7 @@ class Trainer:
         self.unet_loss.cuda()
 
     def togglephase(self, phase="train"):
-        assert phase == "train" or phase == "eval"
+        assert phase in ["train", "eval"]
         if phase == "train":
             self.unet_model.train()
         else:
@@ -159,22 +161,23 @@ class Trainer:
             unet_loss.append(l_segmentation.item())
             unet_dice.append(dice_coef_multilabel(y_true=maskA, y_pred=y_pred, channel=self.channel))
 
-        output = {}
-        output["unet_loss"] = np.mean(np.array(unet_loss))
+        output = {"unet_loss": np.mean(np.array(unet_loss))}
         output["unet_dice"] = np.mean(np.array(unet_dice))
         return output
 
     def train_model(self, train=True, comments=''):
 
         # create directory for the weights
-        root_directory = './weights/' + comments + '/'
+        root_directory = f'./weights/{comments}/'
         if not os.path.exists(root_directory):
             os.mkdir(root_directory)
 
         # Split the train data into train and validation using image names
         ids_train = ImageProcessor.split_data(self.train_path)
         ids_valid = ImageProcessor.split_data(self.test_path)
-        print("Trainining on {} images and validating on {} images...!!".format(len(ids_train), len(ids_valid)))
+        print(
+            f"Trainining on {len(ids_train)} images and validating on {len(ids_valid)} images...!!"
+        )
 
         trainA_iterator, validA_iterator = self.get_generators(ids_train, ids_valid)
         # convert models and losses to cuda
@@ -225,9 +228,9 @@ class Trainer:
             print_msg_line1 = f'valid_loss: {val_loss[-1]:.5f} '
             print_msg_line2 = f'valid_dice: {val_dice[-1]:.5f} '
             if train:
-                print_msg_line1 = f'train_loss: {train_loss[-1]:.5f} ' + print_msg_line1
-                print_msg_line2 = f'train_dice: {train_dice[-1]:.5f} ' + print_msg_line2
-            print_msg_line1 = f'[{epoch + 1:>{epoch_len}}/{self.epochs:>{epoch_len}}] ' + print_msg_line1
+                print_msg_line1 = f'train_loss: {train_loss[-1]:.5f} {print_msg_line1}'
+                print_msg_line2 = f'train_dice: {train_dice[-1]:.5f} {print_msg_line2}'
+            print_msg_line1 = f'[{epoch + 1:>{epoch_len}}/{self.epochs:>{epoch_len}}] {print_msg_line1}'
             print_msg_line2 = ' ' * (2 * epoch_len + 4) + print_msg_line2
             print(print_msg_line1)
             print(print_msg_line2)
@@ -241,19 +244,16 @@ class Trainer:
             if earlystop.should_stop():
                 break
         the_epoch = modelcheckpoint_unet.epoch
-        print("Best model on epoch {}: train_dice {}, valid_dice {}".format(the_epoch,
-                                                                            train_dice[the_epoch],
-                                                                            val_dice[the_epoch]))
+        print(
+            f"Best model on epoch {the_epoch}: train_dice {train_dice[the_epoch]}, valid_dice {val_dice[the_epoch]}"
+        )
         # record train metrics in tensorboard
         writer = SummaryWriter(comment=comments)
-        # writer = SummaryWriter()
-        i = 0
         print("write a training summary")
-        for t_loss, t_dice, v_loss, v_dice in zip(
-                train_loss, train_dice, val_loss, val_dice):
+        for i, (t_loss, t_dice, v_loss, v_dice) in enumerate(zip(
+                train_loss, train_dice, val_loss, val_dice)):
             writer.add_scalar('Loss/Training', t_loss, i)
             writer.add_scalar('Loss/Validation', v_loss, i)
-            i += 1
         writer.close()
         print("Finish training")
 
@@ -274,11 +274,11 @@ if __name__ == '__main__':
                         default=False)
     args = parser.parse_args()
 
-    config_info = "filters {}, n_block {}".format(args.n_filter, args.n_block)
+    config_info = f"filters {args.n_filter}, n_block {args.n_block}"
     print(config_info)
 
     # calculate the comments
-    comments = "Verterbra_disk.unet_lr_{}_{}".format(args.unetlr, args.n_filter)
+    comments = f"Verterbra_disk.unet_lr_{args.unetlr}_{args.n_filter}"
     if args.gaussianNoise:
         comments += ".gaussian_noise"
     print(comments)
@@ -290,7 +290,9 @@ if __name__ == '__main__':
                                     n_class=args.n_class)
 
     if args.pretrained:
-        unet_model.load_state_dict(torch.load('./weights/{}/unet_model_checkpoint.pt'.format(comments)))
+        unet_model.load_state_dict(
+            torch.load(f'./weights/{comments}/unet_model_checkpoint.pt')
+        )
 
     train_obj = Trainer(width= 256,
                         height=256,
@@ -303,9 +305,9 @@ if __name__ == '__main__':
                         n_samples=args.n_samples)
 
     # train the models
-    print("number of samples {}".format(args.n_samples))
+    print(f"number of samples {args.n_samples}")
     start = datetime.now()
     t.autograd.set_detect_anomaly(True)
     train_obj.train_model(comments=comments)
     end = datetime.now()
-    print("time elapsed for training (hh:mm:ss.ms) {}".format(end - start))
+    print(f"time elapsed for training (hh:mm:ss.ms) {end - start}")

@@ -51,8 +51,8 @@ def predict_model(data_generator, unet_model):
         plt.show(block=True)
 
         for im, gt in zip(y_pred, y_batch):
-            plt.imsave('./results/pred_{}.png'.format(i), im)
-            plt.imsave('./results/gt_{}.png'.format(i), gt)
+            plt.imsave(f'./results/pred_{i}.png', im)
+            plt.imsave(f'./results/gt_{i}.png', gt)
             i+=1
 
 
@@ -70,11 +70,11 @@ if __name__ == '__main__':
     parser.add_argument("-nb", "--n_block", help="number unet blocks", type=int, default=4)
     args = parser.parse_args()
 
-    config_info = "filters {}, n_block {}".format(args.n_filter, args.n_block)
+    config_info = f"filters {args.n_filter}, n_block {args.n_block}"
     print(config_info)
 
     # calculate the comments
-    comments = "Verterbra_disk.unet_lr_{}_{}".format(args.unetlr, args.n_filter)
+    comments = f"Verterbra_disk.unet_lr_{args.unetlr}_{args.n_filter}"
     if args.gaussianNoise:
         comments += ".gaussian_noise"
     print(comments)
@@ -92,11 +92,13 @@ if __name__ == '__main__':
                                     n_block=args.n_block,
                                     bottleneck_depth=4,
                                     n_class=args.n_class)
-    unet_model.load_state_dict(torch.load('./weights/{}/unet_model_checkpoint.pt'.format(comments)))
+    unet_model.load_state_dict(
+        torch.load(f'./weights/{comments}/unet_model_checkpoint.pt')
+    )
 
     start = datetime.now()
     t.autograd.set_detect_anomaly(True)
     predict_model(validA_generator, unet_model)
     end = datetime.now()
-    print("time elapsed for testing (hh:mm:ss.ms) {}".format(end - start))
+    print(f"time elapsed for testing (hh:mm:ss.ms) {end - start}")
 

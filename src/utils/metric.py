@@ -26,12 +26,15 @@ def dice_coef_multilabel(y_true, y_pred, numLabels=3, channel='channel_first'):
     :param numLabels:
     :return:
     """
-    assert channel=='channel_first' or channel=='channel_last', r"channel has to be either 'channel_first' or 'channel_last'"
+    assert channel in [
+        'channel_first',
+        'channel_last',
+    ], r"channel has to be either 'channel_first' or 'channel_last'"
     dice = 0
     if channel == 'channel_first':
         y_true = np.moveaxis(y_true, 1, -1)
         y_pred = np.moveaxis(y_pred, 1, -1)
-    for index in range(0, numLabels):
+    for index in range(numLabels):
         temp = dice_coef(y_true[:, :, :, index], y_pred[:, :, :, index])
         dice += temp
 
@@ -46,7 +49,10 @@ def hausdorff_multilabel(y_true, y_pred, numLabels=4, channel='channel_first'):
     :param numLabels:
     :return:
     """
-    assert channel=='channel_first' or channel=='channel_last', r"channel has to be either 'channel_first' or 'channel_last'"
+    assert channel in [
+        'channel_first',
+        'channel_last',
+    ], r"channel has to be either 'channel_first' or 'channel_last'"
     hd_score = 0
     if channel == 'channel_first':
         y_true = np.moveaxis(y_true, 1, -1)

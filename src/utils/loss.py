@@ -40,8 +40,9 @@ class CrossEntropy2d(nn.Module):
             return Variable(torch.zeros(1))
         predict = predict.transpose(1, 2).transpose(2, 3).contiguous()
         predict = predict[target_mask.view(n, h, w, 1).repeat(1, 1, 1, c)].view(-1, c)
-        loss = F.cross_entropy(predict, target, weight=weight, size_average=self.size_average)
-        return loss
+        return F.cross_entropy(
+            predict, target, weight=weight, size_average=self.size_average
+        )
 
 
 class DiceCoefMultilabelLoss(nn.Module):
@@ -60,7 +61,10 @@ class DiceCoefMultilabelLoss(nn.Module):
         return 1. - score
 
     def forward(self, predict, target, numLabels=3, channel='channel_first'):
-        assert channel == 'channel_first' or channel == 'channel_last', r"channel has to be either 'channel_first' or 'channel_last'"
+        assert channel in [
+            'channel_first',
+            'channel_last',
+        ], r"channel has to be either 'channel_first' or 'channel_last'"
         dice = 0
         predict = self.activation(predict)
         if channel == 'channel_first':
